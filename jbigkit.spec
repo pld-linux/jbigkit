@@ -1,6 +1,6 @@
 #
 # Conditional build:
-# _without_tests - do not perform "make test"
+%bcond_without	tests	# do not perform "make test"
 #
 Summary:	JBIG-KIT lossless image compression library
 Summary(pl):	JBIG-KIT - biblioteka do bezstratnej kompresji obrazków
@@ -75,7 +75,7 @@ Narzêdzia do konwersji plików miêdzy formatami JBIG i PBM.
 	libdir=%{_libdir} \
 	CCFLAGS="%{rpmcflags}"
 
-%{!?_without_tests:%{__make} test}
+%{?with_tests:%{__make} test}
 
 %install
 rm -rf $RPM_BUILD_ROOT
