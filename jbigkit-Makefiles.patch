@@ -1,0 +1,107 @@
+diff -durN -x '*~' jbigkit.orig/Makefile jbigkit/Makefile
+--- jbigkit.orig/Makefile	2004-12-22 17:49:21.000000000 +0100
++++ jbigkit/Makefile	2004-12-22 20:21:33.259736832 +0100
+@@ -12,28 +12,34 @@
+ 
+ VERSION=1.5
+ 
++prefix=/usr/local
++libdir=$(prefix)/lib
++includedir=$(prefix)/include
++bindir=$(prefix)/bin
++mandir=$(prefix)/share/man
++
+ all: lib pbm
+ 	@echo "Enter 'make test' in order to start some automatic tests."
+ 
+ lib:
+-	(cd libjbig;  make "CC=$(CC)" "CFLAGS=$(CFLAGS)")
++	$(MAKE) -C libjbig
+ 
+ pbm: lib
+-	(cd pbmtools; make "CC=$(CC)" "CFLAGS=$(CFLAGS)")
++	$(MAKE) -C pbmtools
+ 
+ test: lib pbm
+-	(cd libjbig;  make "CC=$(CC)" "CFLAGS=$(CFLAGS)" test)
+-	(cd pbmtools; make "CC=$(CC)" "CFLAGS=$(CFLAGS)" test)
++	$(MAKE) -C libjbig test
++	$(MAKE) -C pbmtools test
+ 
+ install:
+-	install -d $(DESTDIR)/usr/{bin,lib,include,share/man/man1}
+-	(cd libjbig;  make "DESTDIR=$(DESTDIR)" install)
+-	(cd pbmtools; make "DESTDIR=$(DESTDIR)" install)
++	install -d $(DESTDIR){$(bindir),$(libdir),$(includedir),$(mandir)/man1}
++	$(MAKE) -C libjbig install
++	$(MAKE) -C pbmtools install
+ 
+ clean:
+ 	rm -f *~ core
+-	(cd libjbig; make clean)
+-	(cd pbmtools; make clean)
++	$(MAKE) -C libjbig clean
++	$(MAKE) -C pbmtools clean
+ 
+ distribution: clean
+ 	rm -f libjbig/libjbig.a
+diff -durN -x '*~' jbigkit.orig/libjbig/Makefile jbigkit/libjbig/Makefile
+--- jbigkit.orig/libjbig/Makefile	2004-12-22 17:49:21.000000000 +0100
++++ jbigkit/libjbig/Makefile	2004-12-22 20:21:33.260736680 +0100
+@@ -7,6 +7,12 @@
+ # Options for the compiler: A high optimization level is suggested
+ CFLAGS = -O -Wall -ansi -pedantic
+ 
++prefix=/usr/local
++libdir=$(prefix)/lib
++includedir=$(prefix)/include
++bindir=$(prefix)/bin
++mandir=$(prefix)/share/man
++
+ all: libjbig.la tstcodec
+ 
+ tstcodec: tstcodec.c jbig.c jbig.h jbig_tab.o
+@@ -17,13 +23,13 @@
+ 	libtool --mode=compile --tag=C $(CC) $(CFLAGS) -c $*.c
+ 
+ libjbig.la: jbig.lo jbig_tab.lo
+-	libtool --mode=link --tag=C $(CC) -o libjbig.la jbig.lo jbig_tab.lo -rpath /usr/lib
++	libtool --mode=link --tag=C $(CC) -o libjbig.la jbig.lo jbig_tab.lo -rpath $(libdir) 
+ 
+ jbig.lo: jbig.c jbig.h
+ 
+ install:
+-	libtool --mode=install install libjbig.la $(DESTDIR)/usr/lib
+-	install jbig.h $(DESTDIR)/usr/include
++	libtool --mode=install install libjbig.la $(DESTDIR)$(libdir)
++	install jbig.h $(DESTDIR)$(includedir)
+ 
+ test: tstcodec
+ 	./tstcodec
+diff -durN -x '*~' jbigkit.orig/pbmtools/Makefile jbigkit/pbmtools/Makefile
+--- jbigkit.orig/pbmtools/Makefile	2004-12-22 17:49:21.000000000 +0100
++++ jbigkit/pbmtools/Makefile	2004-12-22 20:22:35.032345968 +0100
+@@ -7,6 +7,12 @@
+ # Options for the compiler
+ CFLAGS = -g -Wall -ansi -pedantic -I../libjbig
+ 
++prefix=/usr/local
++libdir=$(prefix)/lib
++includedir=$(prefix)/include
++bindir=$(prefix)/bin
++mandir=$(prefix)/share/man
++
+ .SUFFIXES: .1 .5 .txt $(SUFFIXES)
+ 
+ all: pbmtojbg jbgtopbm pbmtojbg.txt jbgtopbm.txt pbm.txt pgm.txt
+@@ -24,8 +30,8 @@
+ 	cd ../libjbig ; make libjbig.la
+ 
+ install:
+-	libtool --mode=install install pbmtojbg jbgtopbm $(DESTDIR)/usr/bin
+-	install pbmtojbg.1 jbgtopbm.1 $(DESTDIR)/usr/share/man/man1
++	libtool --mode=install install pbmtojbg jbgtopbm $(DESTDIR)$(bindir)
++	install pbmtojbg.1 jbgtopbm.1 $(DESTDIR)$(mandir)/man1
+ 
+ test: pbmtojbg jbgtopbm
+ 	make IMG=ccitt1     OPTIONSJ=      OPTIONSP=       dotest1
