@@ -32,7 +32,7 @@ diff -Nur jbigkit.orig/libjbig/Makefile jbigkit/libjbig/Makefile
 -	ar rc libjbig.a jbig.o jbig_tab.o
 -	-ranlib libjbig.a
 +%.lo: %.c
-+	libtool --mode=compile $(CC) $(CFLAGS) -c $*.c
++	libtool --mode=compile --tag=C $(CC) $(CFLAGS) -c $*.c
  
 -jbig.o: jbig.c jbig.h
 +libjbig.la: jbig.lo jbig_tab.lo
