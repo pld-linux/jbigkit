@@ -16,11 +16,11 @@ diff -uNr jbigkit.orig/libjbig/Makefile jbigkit/libjbig/Makefile
  all: libjbig.la tstcodec
  
 @@ -17,13 +20,13 @@
- 	libtool --mode=compile --tag=C $(CC) $(CFLAGS) -c $*.c
+ 	libtool --mode=compile --tag=CC $(CC) $(CFLAGS) -c $*.c
  
  libjbig.la: jbig.lo jbig_tab.lo
--	libtool --mode=link --tag=C $(CC) -o libjbig.la jbig.lo jbig_tab.lo -rpath /usr/lib
-+	libtool --mode=link --tag=C $(CC) -o libjbig.la jbig.lo jbig_tab.lo -rpath $(libdir) 
+-	libtool --mode=link --tag=CC $(CC) -o libjbig.la jbig.lo jbig_tab.lo -rpath /usr/lib
++	libtool --mode=link --tag=CC $(CC) -o libjbig.la jbig.lo jbig_tab.lo -rpath $(libdir) 
  
  jbig.lo: jbig.c jbig.h
  
@@ -32,20 +32,11 @@ diff -uNr jbigkit.orig/libjbig/Makefile jbigkit/libjbig/Makefile
  
  test: tstcodec
  	./tstcodec
-diff -uNr jbigkit.orig/Makefile jbigkit/Makefile
---- jbigkit.orig/Makefile	2004-06-15 15:41:43.423777032 +0200
-+++ jbigkit/Makefile	2004-06-15 15:43:32.064261168 +0200
-@@ -4,36 +4,38 @@
- # Select an ANSI/ISO C compiler here, GNU gcc is recommended
- CC = gcc
+--- jbigkit/Makefile.orig	2004-07-04 22:48:28.874449896 +0200
++++ jbigkit/Makefile	2004-07-04 22:51:15.561109672 +0200
+@@ -12,28 +12,34 @@
  
--# Options for the compiler: A high optimization level is suggested
--CCFLAGS = -O2 -W
--#CCFLAGS = -O -g -W -Wall -ansi -pedantic #-DDEBUG  # developer only
--
- CFLAGS = $(CCFLAGS) -I../libjbig
- 
- VERSION=1.5
+ VERSION=1.6
  
 +prefix=/usr/local
 +libdir=$(prefix)/lib
