@@ -11,6 +11,7 @@ Group(fr):	Librairies
 Group(pl):	Biblioteki
 Source0:	ftp://ftp.informatik.uni-erlangen.de/pub/doc/ISO/JBIG/%{name}-%{version}.tar.gz
 Patch0:		%{name}-shared.patch
+Patch1:		%{name}-lt.patch
 URL:		http://www.jpeg.org/public/jbighomepage.htm
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -72,6 +73,7 @@ Narzêdzia do konwersji plików miêdzy formatami JBIG i PBM.
 %prep
 %setup -q -n %{name}
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{__make} CCFLAGS="%{rpmcflags}"
