@@ -1,0 +1,79 @@
+diff -Nur jbigkit.orig/Makefile jbigkit/Makefile
+--- jbigkit.orig/Makefile	Sat Apr  8 13:19:41 2000
++++ jbigkit/Makefile	Sun Mar 18 07:03:31 2001
+@@ -25,6 +25,11 @@
+ 	(cd libjbig;  make "CC=$(CC)" "CFLAGS=$(CFLAGS)" test)
+ 	(cd pbmtools; make "CC=$(CC)" "CFLAGS=$(CFLAGS)" test)
+ 
++install:
++	install -d $(DESTDIR)/usr/{bin,lib,include,share/man/man1}
++	(cd libjbig; make "DESTDIR=$(DESTDIR)" install)
++	(cd pbmtools; make "DESTDIR=$(DESTDIR)" install)
++
+ clean:
+ 	rm -f *~ core
+ 	(cd libjbig; make clean)
+diff -Nur jbigkit.orig/libjbig/Makefile jbigkit/libjbig/Makefile
+--- jbigkit.orig/libjbig/Makefile	Sat Apr  8 13:15:46 2000
++++ jbigkit/libjbig/Makefile	Sun Mar 18 07:03:31 2001
+@@ -7,18 +7,23 @@
+ # Options for the compiler: A high optimization level is suggested
+ CFLAGS = -O -Wall -ansi -pedantic
+ 
+-all: libjbig.a tstcodec
++all: libjbig.la tstcodec
+ 
+ tstcodec: tstcodec.c jbig.c jbig.h jbig_tab.o
+ 	$(CC) $(CFLAGS) -o tstcodec -DTEST_CODEC tstcodec.c jbig.c \
+ 	jbig_tab.o
+ 
+-libjbig.a: jbig.o jbig_tab.o
+-	rm -f libjbig.a
+-	ar rc libjbig.a jbig.o jbig_tab.o
+-	ranlib libjbig.a
++%.lo: %.c
++	libtool $(CC) $(CFLAGS) -c $*.c
+ 
+-jbig.o: jbig.c jbig.h
++libjbig.la: jbig.lo jbig_tab.lo
++	libtool gcc -o libjbig.la jbig.lo jbig_tab.lo -rpath /usr/lib
++
++jbig.lo: jbig.c jbig.h
++
++install:
++	libtool install libjbig.la $(DESTDIR)/usr/lib
++	install jbig.h $(DESTDIR)/usr/include
+ 
+ test: tstcodec
+ 	./tstcodec
+diff -Nur jbigkit.orig/pbmtools/Makefile jbigkit/pbmtools/Makefile
+--- jbigkit.orig/pbmtools/Makefile	Sat Apr  8 13:15:52 2000
++++ jbigkit/pbmtools/Makefile	Sun Mar 18 07:07:31 2001
+@@ -11,17 +11,21 @@
+ 
+ all: pbmtojbg jbgtopbm pbmtojbg.txt jbgtopbm.txt pbm.txt pgm.txt
+ 
+-pbmtojbg: pbmtojbg.o ../libjbig/libjbig.a
+-	$(CC) $(CFLAGS) -o pbmtojbg pbmtojbg.o -L../libjbig -ljbig
++pbmtojbg: pbmtojbg.o ../libjbig/libjbig.la
++	$(CC) $(CFLAGS) -o pbmtojbg pbmtojbg.o -L../libjbig/.libs -ljbig
+ 
+-jbgtopbm: jbgtopbm.o ../libjbig/libjbig.a
+-	$(CC) $(CFLAGS) -o jbgtopbm jbgtopbm.o -L../libjbig -ljbig
++jbgtopbm: jbgtopbm.o ../libjbig/libjbig.la
++	$(CC) $(CFLAGS) -o jbgtopbm jbgtopbm.o -L../libjbig/.libs -ljbig
+ 
+ jbgtopbm.o: jbgtopbm.c ../libjbig/jbig.h
+ pbmtojbg.o: pbmtojbg.c ../libjbig/jbig.h
+ 
+-../libjbig/libjbig.a:
+-	cd ../libjbig ; make libjbig.a
++../libjbig/libjbig.la:
++	cd ../libjbig ; make libjbig.la
++
++install:
++	install pbmtojbg jbgtopbm $(DESTDIR)/usr/bin
++	install pbmtojbg.1 jbgtopbm.1 $(DESTDIR)/usr/share/man/man1
+ 
+ test: pbmtojbg jbgtopbm
+ 	make IMG=ccitt1  OPTIONSJ=      OPTIONSP=      dotest1
