@@ -12,7 +12,8 @@ Group(pl):	Biblioteki
 Group(pt_BR):	Bibliotecas
 Group(ru):	Библиотеки
 Group(uk):	Б╕бл╕отеки
-Source0:	ftp://ftp.informatik.uni-erlangen.de/pub/doc/ISO/JBIG/%{name}-%{version}.tar.gz
+Source0:	%{name}-%{version}.tar.gz
+# Source0-md5:	2175611f9d63632d2043cffae9bb1e8e
 Patch0:		%{name}-shared.patch
 URL:		http://www.jpeg.org/public/jbighomepage.htm
 BuildRequires:	libtool
