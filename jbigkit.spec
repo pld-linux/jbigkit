@@ -1,3 +1,7 @@
+#
+# Conditional build:
+# _without_tests - do not perform "make test"
+#
 Summary:	JBIG-KIT lossless image compression library
 Summary(pl):	JBIG-KIT - biblioteka do bezstratnej kompresji obrazków
 Name:		jbigkit
@@ -7,7 +11,7 @@ License:	GPL
 Group:		Libraries
 Source0:	ftp://ftp.informatik.uni-erlangen.de/pub/doc/ISO/JBIG/%{name}-%{version}.tar.gz
 Patch0:		%{name}-shared.patch
-Patch1:		%{name}-libtool.patch
+#Patch1:		%{name}-libtool.patch
 URL:		http://www.jpeg.org/public/jbighomepage.htm
 BuildRequires:	libtool
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -62,10 +66,12 @@ Narzêdzia do konwersji plików miêdzy formatami JBIG i PBM.
 %prep
 %setup -q -n %{name}
 %patch0 -p1
-%patch1 -p1
+#%patch1 -p1
 
 %build
 %{__make} CCFLAGS="%{rpmcflags}"
+
+%{!?_without_tests:%{__make} test}
 
 %install
 rm -rf $RPM_BUILD_ROOT
