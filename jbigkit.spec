@@ -5,13 +5,6 @@ Version:	1.2
 Release:	2
 License:	GPL
 Group:		Libraries
-Group(de):	Libraries
-Group(es):	Bibliotecas
-Group(fr):	Librairies
-Group(pl):	Biblioteki
-Group(pt_BR):	Bibliotecas
-Group(ru):	Библиотеки
-Group(uk):	Б╕бл╕отеки
 Source0:	ftp://ftp.informatik.uni-erlangen.de/pub/doc/ISO/JBIG/%{name}-%{version}.tar.gz
 Patch0:		%{name}-shared.patch
 URL:		http://www.jpeg.org/public/jbighomepage.htm
@@ -32,13 +25,6 @@ skanowane dokumenty.
 Summary:	JBIG-KIT - development part
 Summary(pl):	JBIG-KIT - plik nagЁСwkowy
 Group:		Development/Libraries
-Group(de):	Entwicklung/Libraries
-Group(es):	Desarrollo/Bibliotecas
-Group(fr):	Development/Librairies
-Group(pl):	Programowanie/Biblioteki
-Group(pt_BR):	Desenvolvimento/Bibliotecas
-Group(ru):	Разработка/Библиотеки
-Group(uk):	Розробка/Б╕бл╕отеки
 Requires:	%{name} = %{version}
 
 %description devel
@@ -52,13 +38,6 @@ biblioteki JBIG.
 Summary:	JBIG-KIT - static library
 Summary(pl):	JBIG-KIT - biblioteka statyczna
 Group:		Development/Libraries
-Group(de):	Entwicklung/Libraries
-Group(es):	Desarrollo/Bibliotecas
-Group(fr):	Development/Librairies
-Group(pl):	Programowanie/Biblioteki
-Group(pt_BR):	Desenvolvimento/Bibliotecas
-Group(ru):	Разработка/Библиотеки
-Group(uk):	Розробка/Б╕бл╕отеки
 Requires:	%{name}-devel = %{version}
 
 %description static
@@ -71,9 +50,6 @@ Statyczna biblioteka JBIG.
 Summary:	JBIG-KIT - conversion utilities
 Summary(pl):	JBIG-KIT - programy do konwersji
 Group:		Applications/Graphics
-Group(de):	Applikationen/Grafik
-Group(pl):	Aplikacje/Grafika
-Group(pt):	AplicaГУes/GrАficos
 Requires:	%{name} = %{version}
 
 %description progs
