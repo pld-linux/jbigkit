@@ -5,12 +5,12 @@
 Summary:	JBIG-KIT lossless image compression library
 Summary(pl):	JBIG-KIT - biblioteka do bezstratnej kompresji obrazków
 Name:		jbigkit
-Version:	1.5
-Release:	3
+Version:	1.6
+Release:	1
 License:	GPL
 Group:		Libraries
 Source0:	http://www.cl.cam.ac.uk/~mgk25/download/%{name}-%{version}.tar.gz
-# Source0-md5:	d54f65825be7a28728f251b6d4922e07
+# Source0-md5:	ce196e45f293d40ba76af3dc981ccfd7
 Patch0:		%{name}-shared.patch
 Patch1:		%{name}-Makefiles.patch
 URL:		http://www.cl.cam.ac.uk/~mgk25/jbigkit/
@@ -31,7 +31,7 @@ skanowane dokumenty.
 Summary:	JBIG-KIT - development part
 Summary(pl):	JBIG-KIT - plik nag³ówkowy
 Group:		Development/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description devel
 Header file needed to build programs using JBIG library.
@@ -44,7 +44,7 @@ biblioteki JBIG.
 Summary:	JBIG-KIT - static library
 Summary(pl):	JBIG-KIT - biblioteka statyczna
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}
+Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
 Static JBIG library.
@@ -56,7 +56,7 @@ Statyczna biblioteka JBIG.
 Summary:	JBIG-KIT - conversion utilities
 Summary(pl):	JBIG-KIT - programy do konwersji
 Group:		Applications/Graphics
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description progs
 Package contains utilities to convert between JBIG and PBM images.
