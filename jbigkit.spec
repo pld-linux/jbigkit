@@ -9,9 +9,9 @@ Version:	1.2
 Release:	3
 License:	GPL
 Group:		Libraries
-Source0:	ftp://ftp.informatik.uni-erlangen.de/pub/doc/ISO/JBIG/%{name}-%{version}.tar.gz
+Source0:	http://www.cl.cam.ac.uk/~mgk25/download/%{name}-%{version}.tar.gz
 Patch0:		%{name}-shared.patch
-URL:		http://www.jpeg.org/public/jbighomepage.htm
+URL:		http://www.cl.cam.ac.uk/~mgk25/jbigkit/
 BuildRequires:	libtool
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
