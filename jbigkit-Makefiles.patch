@@ -86,7 +86,7 @@ diff -uNr jbigkit.orig/pbmtools/Makefile jbigkit/pbmtools/Makefile
  
  # Options for the compiler
 -CFLAGS = -g -Wall -ansi -pedantic -I../libjbig
-+CFLAGS += -I../libjbig
++CPPFLAGS = -I../libjbig
 +
 +prefix=/usr/local
 +libdir=$(prefix)/lib
