@@ -1,21 +1,21 @@
 diff -Nur jbigkit.orig/Makefile jbigkit/Makefile
---- jbigkit.orig/Makefile	Sat Apr  8 13:19:41 2000
-+++ jbigkit/Makefile	Sun Mar 18 07:03:31 2001
+--- jbigkit.orig/Makefile	Tue Apr  9 12:37:13 2002
++++ jbigkit/Makefile	Fri Jan 17 18:56:43 2003
 @@ -25,6 +25,11 @@
  	(cd libjbig;  make "CC=$(CC)" "CFLAGS=$(CFLAGS)" test)
  	(cd pbmtools; make "CC=$(CC)" "CFLAGS=$(CFLAGS)" test)
  
 +install:
 +	install -d $(DESTDIR)/usr/{bin,lib,include,share/man/man1}
-+	(cd libjbig; make "DESTDIR=$(DESTDIR)" install)
++	(cd libjbig;  make "DESTDIR=$(DESTDIR)" install)
 +	(cd pbmtools; make "DESTDIR=$(DESTDIR)" install)
 +
  clean:
  	rm -f *~ core
  	(cd libjbig; make clean)
 diff -Nur jbigkit.orig/libjbig/Makefile jbigkit/libjbig/Makefile
---- jbigkit.orig/libjbig/Makefile	Sat Apr  8 13:15:46 2000
-+++ jbigkit/libjbig/Makefile	Sun Mar 18 07:03:31 2001
+--- jbigkit.orig/libjbig/Makefile	Tue Feb 13 19:09:24 2001
++++ jbigkit/libjbig/Makefile	Fri Jan 17 19:04:29 2003
 @@ -7,18 +7,23 @@
  # Options for the compiler: A high optimization level is suggested
  CFLAGS = -O -Wall -ansi -pedantic
@@ -30,25 +30,25 @@ diff -Nur jbigkit.orig/libjbig/Makefile jbigkit/libjbig/Makefile
 -libjbig.a: jbig.o jbig_tab.o
 -	rm -f libjbig.a
 -	ar rc libjbig.a jbig.o jbig_tab.o
--	ranlib libjbig.a
+-	-ranlib libjbig.a
 +%.lo: %.c
-+	libtool $(CC) $(CFLAGS) -c $*.c
++	libtool --mode=compile $(CC) $(CFLAGS) -c $*.c
  
 -jbig.o: jbig.c jbig.h
 +libjbig.la: jbig.lo jbig_tab.lo
-+	libtool gcc -o libjbig.la jbig.lo jbig_tab.lo -rpath /usr/lib
++	libtool --mode=link $(CC) -o libjbig.la jbig.lo jbig_tab.lo -rpath /usr/lib
 +
 +jbig.lo: jbig.c jbig.h
 +
 +install:
-+	libtool install libjbig.la $(DESTDIR)/usr/lib
++	libtool --mode=install install libjbig.la $(DESTDIR)/usr/lib
 +	install jbig.h $(DESTDIR)/usr/include
  
  test: tstcodec
  	./tstcodec
 diff -Nur jbigkit.orig/pbmtools/Makefile jbigkit/pbmtools/Makefile
---- jbigkit.orig/pbmtools/Makefile	Sat Apr  8 13:15:52 2000
-+++ jbigkit/pbmtools/Makefile	Sun Mar 18 07:07:31 2001
+--- jbigkit.orig/pbmtools/Makefile	Sat Mar 23 02:38:51 2002
++++ jbigkit/pbmtools/Makefile	Fri Jan 17 19:09:18 2003
 @@ -11,17 +11,21 @@
  
  all: pbmtojbg jbgtopbm pbmtojbg.txt jbgtopbm.txt pbm.txt pgm.txt
@@ -56,23 +56,23 @@ diff -Nur jbigkit.orig/pbmtools/Makefile jbigkit/pbmtools/Makefile
 -pbmtojbg: pbmtojbg.o ../libjbig/libjbig.a
 -	$(CC) $(CFLAGS) -o pbmtojbg pbmtojbg.o -L../libjbig -ljbig
 +pbmtojbg: pbmtojbg.o ../libjbig/libjbig.la
-+	$(CC) $(CFLAGS) -o pbmtojbg pbmtojbg.o -L../libjbig/.libs -ljbig
++	libtool --mode=link $(CC) $(CFLAGS) -o pbmtojbg pbmtojbg.o ../libjbig/libjbig.la
  
 -jbgtopbm: jbgtopbm.o ../libjbig/libjbig.a
 -	$(CC) $(CFLAGS) -o jbgtopbm jbgtopbm.o -L../libjbig -ljbig
 +jbgtopbm: jbgtopbm.o ../libjbig/libjbig.la
-+	$(CC) $(CFLAGS) -o jbgtopbm jbgtopbm.o -L../libjbig/.libs -ljbig
++	libtool --mode=link $(CC) $(CFLAGS) -o jbgtopbm jbgtopbm.o ../libjbig/libjbig.la
  
  jbgtopbm.o: jbgtopbm.c ../libjbig/jbig.h
  pbmtojbg.o: pbmtojbg.c ../libjbig/jbig.h
  
--../libjbig/libjbig.a:
+-../libjbig/libjbig.a: ../libjbig/jbig.c ../libjbig/jbig.h
 -	cd ../libjbig ; make libjbig.a
-+../libjbig/libjbig.la:
++../libjbig/libjbig.la: ../libjbig/jbig.c ../libjbig/jbig.h
 +	cd ../libjbig ; make libjbig.la
 +
 +install:
-+	install pbmtojbg jbgtopbm $(DESTDIR)/usr/bin
++	libtool --mode=install install pbmtojbg jbgtopbm $(DESTDIR)/usr/bin
 +	install pbmtojbg.1 jbgtopbm.1 $(DESTDIR)/usr/share/man/man1
  
  test: pbmtojbg jbgtopbm
