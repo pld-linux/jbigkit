@@ -74,7 +74,7 @@ Narzêdzia do konwersji plików miêdzy formatami JBIG i PBM.
 %patch0 -p1
 
 %build
-%{__make} CCFLAGS="%{?debug:-O0 -g}%{!?debug:$RPM_OPT_FLAGS}"
+%{__make} CCFLAGS="%{rpmcflags}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
