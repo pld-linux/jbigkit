@@ -10,6 +10,7 @@ Release:	2
 License:	GPL
 Group:		Libraries
 Source0:	http://www.cl.cam.ac.uk/~mgk25/download/%{name}-%{version}.tar.gz
+# Source0-md5: 6e0167e017b4cf7e76bfca6fc6390d4c
 Patch0:		%{name}-shared.patch
 URL:		http://www.cl.cam.ac.uk/~mgk25/jbigkit/
 BuildRequires:	libtool >= 2:1.4e
