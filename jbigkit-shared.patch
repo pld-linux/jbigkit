@@ -36,7 +36,7 @@ diff -Nur jbigkit.orig/libjbig/Makefile jbigkit/libjbig/Makefile
  
 -jbig.o: jbig.c jbig.h
 +libjbig.la: jbig.lo jbig_tab.lo
-+	libtool --mode=link $(CC) -o libjbig.la jbig.lo jbig_tab.lo -rpath /usr/lib
++	libtool --mode=link --tag=C $(CC) -o libjbig.la jbig.lo jbig_tab.lo -rpath /usr/lib
 +
 +jbig.lo: jbig.c jbig.h
 +
@@ -56,12 +56,12 @@ diff -Nur jbigkit.orig/pbmtools/Makefile jbigkit/pbmtools/Makefile
 -pbmtojbg: pbmtojbg.o ../libjbig/libjbig.a
 -	$(CC) $(CFLAGS) -o pbmtojbg pbmtojbg.o -L../libjbig -ljbig
 +pbmtojbg: pbmtojbg.o ../libjbig/libjbig.la
-+	libtool --mode=link $(CC) $(CFLAGS) -o pbmtojbg pbmtojbg.o ../libjbig/libjbig.la
++	libtool --mode=link --tag=C $(CC) $(CFLAGS) -o pbmtojbg pbmtojbg.o ../libjbig/libjbig.la
  
 -jbgtopbm: jbgtopbm.o ../libjbig/libjbig.a
 -	$(CC) $(CFLAGS) -o jbgtopbm jbgtopbm.o -L../libjbig -ljbig
 +jbgtopbm: jbgtopbm.o ../libjbig/libjbig.la
-+	libtool --mode=link $(CC) $(CFLAGS) -o jbgtopbm jbgtopbm.o ../libjbig/libjbig.la
++	libtool --mode=link --tag=C $(CC) $(CFLAGS) -o jbgtopbm jbgtopbm.o ../libjbig/libjbig.la
  
  jbgtopbm.o: jbgtopbm.c ../libjbig/jbig.h
  pbmtojbg.o: pbmtojbg.c ../libjbig/jbig.h
