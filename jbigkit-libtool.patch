@@ -1,0 +1,15 @@
+--- jbigkit/libjbig/Makefile~	Fri Nov 22 03:59:48 2002
++++ jbigkit/libjbig/Makefile	Fri Nov 22 04:00:15 2002
+@@ -14,10 +14,10 @@
+ 	jbig_tab.o
+ 
+ %.lo: %.c
+-	libtool $(CC) $(CFLAGS) -c $*.c
++	libtool --tag=C $(CC) $(CFLAGS) -c $*.c
+ 
+ libjbig.la: jbig.lo jbig_tab.lo
+-	libtool gcc -o libjbig.la jbig.lo jbig_tab.lo -rpath /usr/lib
++	libtool --tag=C gcc -o libjbig.la jbig.lo jbig_tab.lo -rpath /usr/lib
+ 
+ jbig.lo: jbig.c jbig.h
+ 
