@@ -73,7 +73,7 @@ Narzêdzia do konwersji plików miêdzy formatami JBIG i PBM.
 %{__make} \
 	prefix=%{_prefix} \
 	libdir=%{_libdir} \
-	CCFLAGS="%{rpmcflags}"
+	CFLAGS="%{rpmcflags}"
 
 %{?with_tests:%{__make} test}
 

@@ -1,7 +1,49 @@
-diff -durN -x '*~' jbigkit.orig/Makefile jbigkit/Makefile
---- jbigkit.orig/Makefile	2004-12-22 17:49:21.000000000 +0100
-+++ jbigkit/Makefile	2004-12-22 20:21:33.259736832 +0100
-@@ -12,28 +12,34 @@
+diff -uNr jbigkit.orig/libjbig/Makefile jbigkit/libjbig/Makefile
+--- jbigkit.orig/libjbig/Makefile	2004-06-15 15:41:43.424776880 +0200
++++ jbigkit/libjbig/Makefile	2004-06-15 15:44:17.389370704 +0200
+@@ -4,8 +4,11 @@
+ # Select an ANSI/ISO C compiler here, GNU gcc is recommended
+ CC = gcc
+ 
+-# Options for the compiler: A high optimization level is suggested
+-CFLAGS = -O -Wall -ansi -pedantic
++prefix=/usr/local
++libdir=$(prefix)/lib
++includedir=$(prefix)/include
++bindir=$(prefix)/bin
++mandir=$(prefix)/share/man
+ 
+ all: libjbig.la tstcodec
+ 
+@@ -17,13 +20,13 @@
+ 	libtool --mode=compile --tag=C $(CC) $(CFLAGS) -c $*.c
+ 
+ libjbig.la: jbig.lo jbig_tab.lo
+-	libtool --mode=link --tag=C $(CC) -o libjbig.la jbig.lo jbig_tab.lo -rpath /usr/lib
++	libtool --mode=link --tag=C $(CC) -o libjbig.la jbig.lo jbig_tab.lo -rpath $(libdir) 
+ 
+ jbig.lo: jbig.c jbig.h
+ 
+ install:
+-	libtool --mode=install install libjbig.la $(DESTDIR)/usr/lib
+-	install jbig.h $(DESTDIR)/usr/include
++	libtool --mode=install install libjbig.la $(DESTDIR)$(libdir)
++	install jbig.h $(DESTDIR)$(includedir)
+ 
+ test: tstcodec
+ 	./tstcodec
+diff -uNr jbigkit.orig/Makefile jbigkit/Makefile
+--- jbigkit.orig/Makefile	2004-06-15 15:41:43.423777032 +0200
++++ jbigkit/Makefile	2004-06-15 15:43:32.064261168 +0200
+@@ -4,36 +4,38 @@
+ # Select an ANSI/ISO C compiler here, GNU gcc is recommended
+ CC = gcc
+ 
+-# Options for the compiler: A high optimization level is suggested
+-CCFLAGS = -O2 -W
+-#CCFLAGS = -O -g -W -Wall -ansi -pedantic #-DDEBUG  # developer only
+-
+ CFLAGS = $(CCFLAGS) -I../libjbig
  
  VERSION=1.5
  
@@ -45,55 +87,24 @@ diff -durN -x '*~' jbigkit.orig/Makefile jbigkit/Makefile
  
  distribution: clean
  	rm -f libjbig/libjbig.a
-diff -durN -x '*~' jbigkit.orig/libjbig/Makefile jbigkit/libjbig/Makefile
---- jbigkit.orig/libjbig/Makefile	2004-12-22 17:49:21.000000000 +0100
-+++ jbigkit/libjbig/Makefile	2004-12-22 20:21:33.260736680 +0100
-@@ -7,6 +7,12 @@
- # Options for the compiler: A high optimization level is suggested
- CFLAGS = -O -Wall -ansi -pedantic
+diff -uNr jbigkit.orig/pbmtools/Makefile jbigkit/pbmtools/Makefile
+--- jbigkit.orig/pbmtools/Makefile	2004-06-15 15:41:43.425776728 +0200
++++ jbigkit/pbmtools/Makefile	2004-06-15 15:45:09.817400432 +0200
+@@ -5,7 +5,13 @@
+ CC = gcc
  
-+prefix=/usr/local
-+libdir=$(prefix)/lib
-+includedir=$(prefix)/include
-+bindir=$(prefix)/bin
-+mandir=$(prefix)/share/man
-+
- all: libjbig.la tstcodec
- 
- tstcodec: tstcodec.c jbig.c jbig.h jbig_tab.o
-@@ -17,13 +23,13 @@
- 	libtool --mode=compile --tag=C $(CC) $(CFLAGS) -c $*.c
- 
- libjbig.la: jbig.lo jbig_tab.lo
--	libtool --mode=link --tag=C $(CC) -o libjbig.la jbig.lo jbig_tab.lo -rpath /usr/lib
-+	libtool --mode=link --tag=C $(CC) -o libjbig.la jbig.lo jbig_tab.lo -rpath $(libdir) 
- 
- jbig.lo: jbig.c jbig.h
- 
- install:
--	libtool --mode=install install libjbig.la $(DESTDIR)/usr/lib
--	install jbig.h $(DESTDIR)/usr/include
-+	libtool --mode=install install libjbig.la $(DESTDIR)$(libdir)
-+	install jbig.h $(DESTDIR)$(includedir)
- 
- test: tstcodec
- 	./tstcodec
-diff -durN -x '*~' jbigkit.orig/pbmtools/Makefile jbigkit/pbmtools/Makefile
---- jbigkit.orig/pbmtools/Makefile	2004-12-22 17:49:21.000000000 +0100
-+++ jbigkit/pbmtools/Makefile	2004-12-22 20:22:35.032345968 +0100
-@@ -7,6 +7,12 @@
  # Options for the compiler
- CFLAGS = -g -Wall -ansi -pedantic -I../libjbig
- 
+-CFLAGS = -g -Wall -ansi -pedantic -I../libjbig
++CFLAGS += -I../libjbig
++
 +prefix=/usr/local
 +libdir=$(prefix)/lib
 +includedir=$(prefix)/include
 +bindir=$(prefix)/bin
 +mandir=$(prefix)/share/man
-+
+ 
  .SUFFIXES: .1 .5 .txt $(SUFFIXES)
  
- all: pbmtojbg jbgtopbm pbmtojbg.txt jbgtopbm.txt pbm.txt pgm.txt
 @@ -24,8 +30,8 @@
  	cd ../libjbig ; make libjbig.la
  
