@@ -12,6 +12,7 @@ Group:		Libraries
 Source0:	http://www.cl.cam.ac.uk/~mgk25/download/%{name}-%{version}.tar.gz
 # Source0-md5:	d54f65825be7a28728f251b6d4922e07
 Patch0:		%{name}-shared.patch
+Patch1:		%{name}-Makefiles.patch
 URL:		http://www.cl.cam.ac.uk/~mgk25/jbigkit/
 BuildRequires:	libtool >= 2:1.4e
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -66,16 +67,23 @@ Narzêdzia do konwersji plików miêdzy formatami JBIG i PBM.
 %prep
 %setup -q -n %{name}
 %patch0 -p1
+%patch1 -p1
 
 %build
-%{__make} CCFLAGS="%{rpmcflags}"
+%{__make} \
+	prefix=%{_prefix} \
+	libdir=%{_libdir} \
+	CCFLAGS="%{rpmcflags}"
 
 %{!?_without_tests:%{__make} test}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__make} install DESTDIR=$RPM_BUILD_ROOT
+%{__make} install \
+	prefix=%{_prefix} \
+	libdir=%{_libdir} \
+	DESTDIR=$RPM_BUILD_ROOT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
