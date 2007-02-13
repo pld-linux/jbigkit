@@ -3,7 +3,7 @@
 %bcond_without	tests	# do not perform "make test"
 #
 Summary:	JBIG-KIT lossless image compression library
-Summary(pl.UTF-8):   JBIG-KIT - biblioteka do bezstratnej kompresji obrazków
+Summary(pl.UTF-8):	JBIG-KIT - biblioteka do bezstratnej kompresji obrazków
 Name:		jbigkit
 Version:	1.6
 Release:	4
@@ -29,7 +29,7 @@ skanowane dokumenty.
 
 %package devel
 Summary:	JBIG-KIT - development part
-Summary(pl.UTF-8):   JBIG-KIT - plik nagłówkowy
+Summary(pl.UTF-8):	JBIG-KIT - plik nagłówkowy
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
@@ -42,7 +42,7 @@ biblioteki JBIG.
 
 %package static
 Summary:	JBIG-KIT - static library
-Summary(pl.UTF-8):   JBIG-KIT - biblioteka statyczna
+Summary(pl.UTF-8):	JBIG-KIT - biblioteka statyczna
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
@@ -54,7 +54,7 @@ Statyczna biblioteka JBIG.
 
 %package progs
 Summary:	JBIG-KIT - conversion utilities
-Summary(pl.UTF-8):   JBIG-KIT - programy do konwersji
+Summary(pl.UTF-8):	JBIG-KIT - programy do konwersji
 Group:		Applications/Graphics
 Requires:	%{name} = %{version}-%{release}
 
