@@ -1,0 +1,51 @@
+# Polish translation for jbigkit.
+# This file is distributed under the same license as the jbigkit package.
+# Jakub Bogusz <qboosh@pld-linux.org>, 2010
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: jbigkit 2.0\n"
+"Report-Msgid-Bugs-To: http://www.cl.cam.ac.uk/~mgk25/jbigkit/\n"
+"POT-Creation-Date: 2008-08-27 19:54+0100\n"
+"PO-Revision-Date: 2010-03-20 14:09+0100\n"
+"Last-Translator: Jakub Bogusz <qboosh@pld-linux.org>\n"
+"Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: jbig.c:110
+msgid "All OK"
+msgstr "Poprawnie"
+
+#: jbig.c:111
+msgid "Reached specified image size"
+msgstr "Osiągnięto określony rozmiar obrazu"
+
+#: jbig.c:112
+msgid "Unexpected end of input data stream"
+msgstr "Nieoczekiwany koniec strumienia danych wejściowych"
+
+#: jbig.c:113
+msgid "Not enough memory available"
+msgstr "Zbyt mało dostępnej pamięci"
+
+#: jbig.c:114
+msgid "ABORT marker segment encountered"
+msgstr "Napotkano segment znacznika ABORT"
+
+#: jbig.c:115
+msgid "Unknown marker segment encountered"
+msgstr "Napotkano segment nieznanego znacznika"
+
+#: jbig.c:116
+msgid "Input data stream contains invalid data"
+msgstr "Strumień danych wejściowych zawiera błędne dane"
+
+#: jbig.c:117
+msgid "Input data stream uses unimplemented JBIG features"
+msgstr "Strumień danych wejściowych korzysta z niezaimplementowanych cech JBIG"
+
+#: jbig.c:118
+msgid "Incremental BIE does not continue previous one"
+msgstr "Przyrostowe dane obrazu nie są kontynuacją poprzednich"
