@@ -47,7 +47,7 @@
 +install:
 +	libtool --mode=install install libjbig.la $(DESTDIR)$(libdir)
 +	libtool --mode=install install libjbig85.la $(DESTDIR)$(libdir)
-+	install -m644 jbig.h jbig85.h $(DESTDIR)$(includedir)
++	install -m644 jbig.h jbig85.h jbig_ar.h $(DESTDIR)$(includedir)
 +
  jbig.pot: jbig.c
  	xgettext -o$@ -k_ \

@@ -123,6 +123,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libjbig85.la
 %{_includedir}/jbig.h
 %{_includedir}/jbig85.h
+%{_includedir}/jbig_ar.h
 
 %files static
 %defattr(644,root,root,755)
