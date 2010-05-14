@@ -83,7 +83,7 @@ for l in libjbig/po/*.po ; do
 	msgfmt -c -v -o "${l%.po}.mo" "$l"
 done
 
-%{?with_tests:%{__make} test}
+%{?with_tests:%{__make} -j1 test}
 
 %install
 rm -rf $RPM_BUILD_ROOT
