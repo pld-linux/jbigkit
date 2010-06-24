@@ -6,7 +6,7 @@ Summary:	JBIG-KIT lossless image compression library
 Summary(pl.UTF-8):	JBIG-KIT - biblioteka do bezstratnej kompresji obrazków
 Name:		jbigkit
 Version:	2.0
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		Libraries
 Source0:	http://www.cl.cam.ac.uk/~mgk25/download/%{name}-%{version}.tar.gz
@@ -72,9 +72,9 @@ Narzędzia do konwersji plików między formatami JBIG i PBM.
 cp %{SOURCE1} libjbig/po/pl.po
 
 %build
-%{__make} \
+%{__make} -j1 \
 	CC="%{__cc}" \
-	CFLAGS="%{rpmcflags}" \
+	CFLAGS="%{rpmcflags} %{rpmcppflags}" \
 	LDFLAGS="%{rpmldflags}" \
 	prefix=%{_prefix} \
 	libdir=%{_libdir}
@@ -88,7 +88,9 @@ done
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__make} install \
+install -d $RPM_BUILD_ROOT%{_libdir}
+
+%{__make} -j1 install \
 	DESTDIR=$RPM_BUILD_ROOT \
 	prefix=%{_prefix} \
 	libdir=%{_libdir}
