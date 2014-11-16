@@ -1,23 +1,23 @@
---- jbigkit/libjbig/Makefile.orig	2008-08-30 19:20:52.000000000 +0200
-+++ jbigkit/libjbig/Makefile	2010-03-20 13:27:12.610721140 +0100
-@@ -4,10 +4,11 @@
+--- jbigkit-2.1/libjbig/Makefile.orig	2014-11-16 16:52:22.715940948 +0100
++++ jbigkit-2.1/libjbig/Makefile	2014-11-16 17:13:54.832553505 +0100
+@@ -3,33 +3,34 @@
  # Select an ANSI/ISO C compiler here, GNU gcc is recommended
  CC = gcc
  
 -# Options for the compiler: A high optimization level is suggested
--CFLAGS = -g -O -Wall -ansi -pedantic # --coverage
- 
--all: libjbig.a tstcodec tstcodec85
+-CFLAGS = -g -O -W -Wall -ansi -pedantic # --coverage
+-
+-all: libjbig.a libjbig85.a tstcodec tstcodec85
 +all: libjbig.la libjbig85.la tstcodec tstcodec85
-+
+ 
 +%.lo: %.c
 +	libtool --mode=compile --tag=CC $(CC) $(CFLAGS) -c $*.c
- 
++ 
  tstcodec: tstcodec.o jbig.o jbig_ar.o
- 	$(CC) $(CFLAGS) -o tstcodec $+
-@@ -15,22 +16,23 @@
+ 	$(CC) $(CFLAGS) -o tstcodec tstcodec.o jbig.o jbig_ar.o
+ 
  tstcodec85: tstcodec85.o jbig85.o jbig_ar.o
- 	$(CC) $(CFLAGS) -o tstcodec85 $+
+ 	$(CC) $(CFLAGS) -o tstcodec85 tstcodec85.o jbig85.o jbig_ar.o
  
 -libjbig.a: jbig.o jbig_ar.o
 -	rm -f libjbig.a
@@ -33,10 +33,10 @@
 -jbig85.o: jbig85.c jbig85.h jbig_ar.h
 -jbig_ar.o: jbig_ar.c jbig_ar.h
 +libjbig.la: jbig.lo jbig_ar.lo
-+	libtool --mode=link --tag=CC $(CC) $(LDFLAGS) $(CFLAGS) -o $@ $^ -rpath $(libdir) -version-info 2:0:0
++	libtool --mode=link --tag=CC $(CC) $(LDFLAGS) $(CFLAGS) -o $@ $^ -rpath $(libdir) -version-info 2:1:0
 +
 +libjbig85.la: jbig85.lo jbig_ar.lo
-+	libtool --mode=link --tag=CC $(CC) $(LDFLAGS) $(CFLAGS) -o $@ $^ -rpath $(libdir) -version-info 2:0:0
++	libtool --mode=link --tag=CC $(CC) $(LDFLAGS) $(CFLAGS) -o $@ $^ -rpath $(libdir) -version-info 2:1:0
 +
 +jbig.lo: jbig.c jbig.h jbig_ar.h
 +jbig85.lo: jbig85.c jbig85.h jbig_ar.h
@@ -49,22 +49,22 @@
 +	libtool --mode=install install libjbig85.la $(DESTDIR)$(libdir)
 +	install -m644 jbig.h jbig85.h jbig_ar.h $(DESTDIR)$(includedir)
 +
- jbig.pot: jbig.c
- 	xgettext -o$@ -k_ \
+ update-po: jbig.c jbig85.c Makefile
+ 	xgettext -ojbig.pot -k_ \
  	  --copyright-holder='Markus Kuhn' \
---- jbigkit/pbmtools/Makefile.orig	2008-08-26 00:26:39.000000000 +0200
-+++ jbigkit/pbmtools/Makefile	2010-03-20 13:23:22.094704379 +0100
-@@ -5,37 +5,41 @@
+--- jbigkit-2.1/pbmtools/Makefile.orig	2014-11-16 16:52:22.715940948 +0100
++++ jbigkit-2.1/pbmtools/Makefile	2014-11-16 17:16:13.279214240 +0100
+@@ -4,7 +4,6 @@
  CC = gcc
  
  # Options for the compiler
--CFLAGS = -g -Wall -ansi -pedantic -I../libjbig # --coverage
-+CPPFLAGS = -I../libjbig
+-CFLAGS = -g -O -W -Wall -Wno-unused-result -ansi -pedantic # --coverage
+ CPPFLAGS = -I../libjbig 
  
  .SUFFIXES: .1 .5 .txt $(SUFFIXES)
+@@ -14,30 +13,34 @@
  
- all: pbmtojbg jbgtopbm pbmtojbg85 jbgtopbm85 \
- 	pbmtojbg.txt jbgtopbm.txt pbm.txt pgm.txt
+ txt: pbmtojbg.txt jbgtopbm.txt pbm.txt pgm.txt
  
 -pbmtojbg: pbmtojbg.o ../libjbig/libjbig.a
 -	$(CC) $(CFLAGS) -o pbmtojbg pbmtojbg.o -L../libjbig -ljbig
@@ -107,13 +107,13 @@
 +	libtool --mode=install install pbmtojbg jbgtopbm $(DESTDIR)$(bindir)
 +	install pbmtojbg.1 jbgtopbm.1 $(DESTDIR)$(mandir)/man1
  
- test: test82 test85
+ analyze:
+ 	clang $(CPPFLAGS) --analyze *.c
+--- jbigkit-2.1/Makefile.orig	2014-11-16 16:52:22.752607611 +0100
++++ jbigkit-2.1/Makefile	2014-11-16 17:19:54.552538286 +0100
+@@ -11,15 +11,26 @@
  
---- jbigkit/Makefile.orig	2010-03-20 13:23:31.746709407 +0100
-+++ jbigkit/Makefile	2010-03-20 13:26:52.578704379 +0100
-@@ -12,23 +12,34 @@
- 
- VERSION=2.0
+ VERSION=2.1
  
 +prefix=/usr/local
 +libdir=$(prefix)/lib
@@ -125,30 +125,18 @@
  	@echo "Enter 'make test' in order to start some automatic tests."
  
  lib:
--	(cd libjbig;  make "CC=$(CC)" "CFLAGS=$(CFLAGS)")
-+	$(MAKE) -C libjbig "libdir=$(libdir)"
+-	cd libjbig && $(MAKE) -e
++	$(MAKE) -C libjbig -e
  
  pbm: lib
--	(cd pbmtools; make "CC=$(CC)" "CFLAGS=$(CFLAGS)")
-+	$(MAKE) -C pbmtools "bindir=$(bindir)" "mandir=$(mandir)"
+-	cd pbmtools && $(MAKE) -e
++	$(MAKE) -C pbmtools -e
  
- test: lib pbm
--	(cd libjbig;  make "CC=$(CC)" "CFLAGS=$(CFLAGS)" test)
--	(cd pbmtools; make "CC=$(CC)" "CFLAGS=$(CFLAGS)" test)
-+	$(MAKE) -C libjbig test
-+	$(MAKE) -C pbmtools test
-+
 +install:
-+	install -d $(DESTDIR)/usr/{bin,lib,include,share/man/man1}
++	install -d $(DESTDIR)$(libdir) $(DESTDIR)$(bindir) $(DESTDIR)$(includedir) $(DESTDIR)$(mandir)/man1
 +	$(MAKE) -C libjbig install "DESTDIR=$(DESTDIR)" "libdir=$(libdir)" "includedir=$(includedir)"
 +	$(MAKE) -C pbmtools install "DESTDIR=$(DESTDIR)" "bindir=$(bindir)" "mandir=$(mandir)"
- 
- clean:
- 	rm -f *~ core
--	(cd libjbig; make clean)
--	(cd pbmtools; make clean)
-+	$(MAKE) -C libjbig clean
-+	$(MAKE) -C pbmtools clean
- 
- distribution: clean
- 	rm -f libjbig/libjbig*.a
++ 
+ test: lib pbm
+ 	cd libjbig  && $(MAKE) test
+ 	cd pbmtools && $(MAKE) test
