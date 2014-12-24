@@ -14,7 +14,7 @@ Source0:	http://www.cl.cam.ac.uk/~mgk25/jbigkit/download/%{name}-%{version}.tar.
 Source1:	%{name}.pl.po
 Patch0:		%{name}-shared.patch
 URL:		http://www.cl.cam.ac.uk/~mgk25/jbigkit/
-BuildRequires:	gettext-devel
+BuildRequires:	gettext-tools
 BuildRequires:	libtool >= 2:1.5
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
