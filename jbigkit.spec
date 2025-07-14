@@ -67,7 +67,7 @@ Narzędzia do konwersji plików między formatami JBIG i PBM.
 
 %prep
 %setup -q
-%patch0 -p1
+%patch -P0 -p1
 
 cp %{SOURCE1} libjbig/po/pl.po
 
