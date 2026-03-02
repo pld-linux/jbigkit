@@ -6,7 +6,7 @@ Summary:	JBIG-KIT lossless image compression library
 Summary(pl.UTF-8):	JBIG-KIT - biblioteka do bezstratnej kompresji obrazków
 Name:		jbigkit
 Version:	2.1
-Release:	3
+Release:	4
 License:	GPL v2+
 Group:		Libraries
 Source0:	https://www.cl.cam.ac.uk/~mgk25/jbigkit/download/%{name}-%{version}.tar.gz
